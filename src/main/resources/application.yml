@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: socket_netty_server
+
+netty:
+  port: 9000
