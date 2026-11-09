@@ -50,6 +50,12 @@ public class NettyServer implements ApplicationRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
 
+    private final JwtVerifier jwtVerifier;
+
+    public NettyServer(JwtVerifier jwtVerifier) {
+        this.jwtVerifier = jwtVerifier;
+    }
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         bossGroup = new MultiThreadIoEventLoopGroup(1, NioIoHandler.newFactory());
@@ -71,7 +77,7 @@ public class NettyServer implements ApplicationRunner {
                                     CharsetUtil.UTF_8));
                             pipeline.addLast(new StringEncoder(
                                     CharsetUtil.UTF_8));
-                            pipeline.addLast(new NettyServerHandler());
+                            pipeline.addLast(new NettyServerHandler(jwtVerifier));
                         }
                     });
 
