@@ -8,3 +8,12 @@ jwt:
 
 # powershell 초 만들기
 [DateTimeOffset]::UtcNow.AddMinutes(10).ToUnixTimeSeconds()
+
+# 포멧
+{
+  "iss": "",
+  "aud": "",
+  "sub": "",
+  "iat": 1762760000,
+  "exp": 1762760600
+}
