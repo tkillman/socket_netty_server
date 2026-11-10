@@ -5,3 +5,6 @@ jwt:
   access-token-key: 
   issuer: 
   audience: 
+
+# powershell 초 만들기
+[DateTimeOffset]::UtcNow.AddMinutes(10).ToUnixTimeSeconds()

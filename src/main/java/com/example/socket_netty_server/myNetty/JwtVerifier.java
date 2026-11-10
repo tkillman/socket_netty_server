@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Component
@@ -21,12 +20,14 @@ public class JwtVerifier {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtVerifier.class);
 
-    public JwtVerifier(@Value("${jwt.access-token-key}") String accessTokenKeyBase64,
+    public JwtVerifier(@Value("${jwt.access-token-key}") String accessTokenKey,
             @Value("${jwt.issuer}") String issuer, @Value("${jwt.audience}") String audience) {
 
         logger.info("issuer :: {}", issuer);
 
-        byte[] keyBytes = Decoders.BASE64.decode(accessTokenKeyBase64);
+        // byte[] keyBytes = Decoders.BASE64.decode(accessTokenKeyBase64);
+
+        byte[] keyBytes = accessTokenKey.getBytes();
         this.accessTokenKey = Keys.hmacShaKeyFor(keyBytes);
         this.issuer = issuer;
         this.audience = audience;
@@ -35,6 +36,7 @@ public class JwtVerifier {
     public Claims verify(String jwt) {
 
         logger.info(jwt);
+
         return Jwts.parser()
                 .verifyWith(accessTokenKey)
                 .requireIssuer(issuer)
